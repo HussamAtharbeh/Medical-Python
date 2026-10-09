@@ -1,0 +1,24 @@
+import Card from './Card';
+
+export default function FirstAidSteps({ steps }) {
+  if (!steps?.length) return null;
+
+  return (
+    <Card>
+      <h3 className="font-bold text-text mb-3">خطوات الإسعاف الأولي</h3>
+      <ol className="space-y-3">
+        {steps.map((step, i) => (
+          <li key={i} className="flex items-start gap-3">
+            <span className="w-6 h-6 rounded-full bg-primary text-white text-xs flex items-center justify-center shrink-0 mt-0.5">
+              {i + 1}
+            </span>
+            <div>
+              <p className="text-sm text-text">{step.text}</p>
+              {step.duration && <p className="text-xs text-muted mt-0.5">{step.duration}</p>}
+            </div>
+          </li>
+        ))}
+      </ol>
+    </Card>
+  );
+}
