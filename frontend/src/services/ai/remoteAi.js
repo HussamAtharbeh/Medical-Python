@@ -227,7 +227,6 @@ export async function assessStep(request) {
     };
   }
 
-  // status === 'question'
   const questionIndex = (counters?.baseAsked || 0) + 1;
   return {
     status: 'needs_answer',

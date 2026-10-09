@@ -66,7 +66,6 @@ export default function Assessment() {
     return (
       <div className="max-w-2xl mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Main column */}
           <div className="lg:col-span-2 space-y-4">
             <Card>
               <h2 className="text-lg font-bold mb-1">{r.assessmentLabel}</h2>
@@ -146,7 +145,6 @@ export default function Assessment() {
             <p className="text-xs text-placeholder text-center">{r.disclaimer}</p>
           </div>
 
-          {/* Side panel */}
           <div className="space-y-4">
             <ProfileFactorsCard factors={assessment.profileFactors} />
 
@@ -174,7 +172,6 @@ export default function Assessment() {
     );
   }
 
-  // QUESTIONING status
   return (
     <div className="max-w-2xl mx-auto px-4 py-8">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

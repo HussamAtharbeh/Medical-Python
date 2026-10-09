@@ -1,74 +1,150 @@
-# MedicZero — مساعد الإسعافات الأولية بالذكاء الاصطناعي
+# 🩺 MedicZero — AI First-Aid Triage Assistant
 
-> تطبيق ويب يقدّم **تقييماً مبدئياً للإصابات والأعراض** وإرشادات إسعاف أولي باللغة العربية (واللهجة الأردنية)، مدعوم بنموذج Google Gemini.
->
-> A bilingual (Arabic/English) first‑aid triage assistant. The user describes a symptom or uploads a photo of an injury; the app asks short follow‑up questions, then returns an urgency level, probable causes, specific first‑aid steps, warning signs, and web‑sourced medical information.
+**MedicZero** is a bilingual (Arabic / English) web app that gives people an instant, preliminary first-aid assessment. A user describes a symptom in plain language — or uploads a photo of an injury — and the app asks a few smart follow-up questions, then returns an **urgency level**, **probable causes**, **specific step-by-step first-aid instructions**, **red-flag warning signs**, and **web-sourced medical references**. It is powered by Google **Gemini** with built-in Google Search grounding.
 
-> ⚠️ **تنويه طبي / Medical disclaimer:** هذا عرض توضيحي (POC) لأغراض المسابقة فقط، وليس أداة فرز طبي معتمدة ولا بديلاً عن استشارة الطبيب. في حالات الطوارئ اتصل بـ **911**. This is a hackathon proof‑of‑concept, **not** a validated medical device.
+> ⚠️ **Medical disclaimer:** This is a hackathon proof-of-concept for demonstration only. It is **not** a validated medical device and **not** a substitute for professional care. In a real emergency, call **911** (or your local emergency number).
 
 ---
 
-## نظرة سريعة للحكام / Judges — 60‑second overview
+## ✨ Why it stands out
 
-| | |
-|---|---|
-| **الفكرة** | المستخدم بيوصف إصابته أو بيرفع صورة → الذكاء الاصطناعي بيسأل أسئلة متابعة → بيطلع تقييم بمستوى الخطورة + خطوات إسعاف محددة + متى يروح الطوارئ. |
-| **الواجهة الأمامية** | React 19 + Vite + Tailwind CSS، تصميم عربي من اليمين لليسار (RTL). |
-| **الخلفية** | FastAPI (Python) + Google Gemini SDK مع بحث Google مدمج لجلب مصادر طبية موثّقة. |
-| **المميّز** | محادثة ذكية بذاكرة جلسة، تحليل صور الإصابات، مراعاة الملف الصحي (أمراض مزمنة/أدوية/حساسية)، مسار طوارئ فوري، وتوليد إرشاد إسعافي مخصّص لأي إصابة. |
-| **اللغة** | عربي + إنجليزي (يُكتشف تلقائياً من رسالة المستخدم). |
+- 🗣️ **Conversational triage** — natural back-and-forth in Arabic *or* English (auto-detected), with full session memory so it never re-asks what you already answered.
+- 📸 **Image understanding** — upload a photo of a wound/rash and the model factors visual observations into its assessment.
+- 🧬 **Personalized to the patient** — chronic conditions, medications, and allergies from the medical profile shape the questions and the advice (e.g. blood thinners affect bleeding guidance).
+- 🚑 **Instant emergency path** — life-threatening descriptions immediately trigger an emergency screen instead of continuing routine questions.
+- 🧠 **Guidance for *any* injury** — beyond a small set of built-in rules, the backend generates tailored probable causes + first-aid steps for conditions it hasn't seen before.
+- 🔎 **Grounded, cited information** — pulls general medical info from trusted sources (NHS, MedlinePlus, WHO) via Gemini's Google Search tool, with clickable citations.
+- 🎯 **Five escalating urgency levels** — from `potentially_self_care` all the way to `emergency`.
 
 ---
 
-## 🎬 التشغيل السريع / Quick start
+## 🧭 How it works
 
-المشروع من جزأين لازم يشتغلوا **مع بعض**: الخلفية (Backend) على المنفذ `8000`، والواجهة (Frontend) على `5173`.
+```
+ User (React / Vite, RTL Arabic UI)
+   │   POST /ai/chat  { session_id, message, medical_profile?, image? }
+   ▼
+ remoteAi.js  ──────────── translation layer (frontend format ⇄ backend format)
+   │
+   ▼
+ FastAPI backend (backend/main.py)
+   ├─ Per-session conversation memory
+   ├─ Gemini: up to 5 follow-up questions, then a structured assessment
+   ├─ Optional injury-photo analysis
+   ├─ Google Search grounding → medical info + cited sources
+   ├─ Built-in demo rules + immediate emergency path
+   └─ AI-generated probable causes + first-aid steps for anything else
+   │   ← { urgency, assessment, sources, medical_information }
+   ▼
+ Result screen: risk meter, care direction, first-aid steps,
+                warning signs, and sources.
+```
 
-### المتطلبات / Prerequisites
-- **Python 3.11+**
-- **Node.js 18+** و npm
-- **مفتاح Gemini API** مجاني من <https://aistudio.google.com/apikey>
+**Urgency scale:** `emergency` → `urgent_medical_attention` → `routine_consultation` → `potentially_self_care` → `unable_to_determine`
 
-### 1) الخلفية / Backend
+---
 
-```powershell
+## 🛠️ Tech stack
+
+| Layer | Technologies |
+|-------|--------------|
+| **Frontend** | React 19, Vite 8, React Router 7, Tailwind CSS 4, lucide-react, Oxlint |
+| **Backend** | Python, FastAPI, Uvicorn, Google `google-genai` SDK (Gemini), Pydantic, httpx |
+| **AI** | Google Gemini with Google Search grounding |
+
+---
+
+## 🚀 Download & run it on your machine
+
+The project has **two parts that must run at the same time**: the **backend** (API, port `8000`) and the **frontend** (web UI, port `5173`). Open **two terminal windows** — one for each.
+
+### 0) Install the prerequisites
+
+Before anything, install these on your computer:
+
+| Tool | Version | Download |
+|------|---------|----------|
+| **Git** | any recent | <https://git-scm.com/downloads> |
+| **Python** | 3.11 or newer | <https://www.python.org/downloads/> (on Windows, tick **“Add Python to PATH”** in the installer) |
+| **Node.js + npm** | 18 or newer | <https://nodejs.org/> (LTS) |
+| **Gemini API key** | free | Create one at <https://aistudio.google.com/apikey> |
+
+Verify the tools are installed (any terminal / PowerShell):
+
+```bash
+git --version
+python --version
+node --version
+npm --version
+```
+
+### 1) Clone the repository
+
+```bash
+git clone https://github.com/HussamAtharbeh/Medical-Python.git
+cd Medical-Python
+```
+
+### 2) Start the backend (Terminal #1)
+
+```bash
 cd backend
+
+# Install the Python dependencies
 python -m pip install -r requirements.txt
 
-# انسخ ملف المثال وحط مفتاحك / copy the example and add your key
-Copy-Item .env.example .env
-# افتح .env وحط المفتاح بعد GEMINI_API_KEY=
+# Create your environment file from the template
+#   Windows (PowerShell):
+copy .env.example .env
+#   macOS / Linux:
+#   cp .env.example .env
+```
 
-# شغّل السيرفر / run the server
+Open `backend/.env` in a text editor and paste your Gemini key:
+
+```env
+GEMINI_API_KEY=your_gemini_key_here
+GEMINI_MODEL=gemini-3.8-flash
+```
+
+Then run the server:
+
+```bash
 python -m uvicorn main:app --host 127.0.0.1 --port 8000
 ```
 
-تأكد إنه شغّال: افتح <http://127.0.0.1:8000/health> لازم يطلع `{"status":"ok"}`.
-توثيق الـ API التفاعلي (Swagger): <http://127.0.0.1:8000/docs>.
+✅ **Check it works:** open <http://127.0.0.1:8000/health> — you should see `{"status":"ok"}`.
+📖 Interactive API docs (Swagger): <http://127.0.0.1:8000/docs>.
 
-> ملاحظة: خلّي نافذة التيرمنال مفتوحة. **لا تستخدم `--reload`** أثناء العرض — بيسبّب أحياناً تحميل كود قديم.
+> Keep this terminal open while using the app. Avoid `--reload` during a live demo — it can occasionally reload stale code.
 
-### 2) الواجهة الأمامية / Frontend
+### 3) Start the frontend (Terminal #2)
 
-بتيرمنال **ثانٍ** منفصل:
+Open a **second** terminal in the project root:
 
-```powershell
+```bash
 cd frontend
+
+# Install the Node dependencies
 npm install
 
-# انسخ ملف المثال / copy the example env
-Copy-Item .env.example .env
+# Create the frontend environment file from the template
+#   Windows (PowerShell):
+copy .env.example .env
+#   macOS / Linux:
+#   cp .env.example .env
 
+# Start the dev server
 npm run dev
 ```
 
-افتح الرابط اللي بيظهر (عادةً <http://localhost:5173>).
+Open the URL it prints (usually <http://localhost:5173>) in your browser. Done — describe a symptom and try it out. 🎉
 
 ---
 
-## 🔑 الإعدادات / Environment variables
+## 🔑 Environment variables
 
-**`backend/.env`** (سرّي — لا يُرفع على GitHub):
+**`backend/.env`** (secret — never commit this):
 ```env
 GEMINI_API_KEY=your_gemini_key_here
 GEMINI_MODEL=gemini-3.8-flash
@@ -80,85 +156,91 @@ VITE_AI_MODE=remote
 VITE_AI_SERVICE_URL=http://localhost:8000
 ```
 
-> المفتاح يبقى على الخادم فقط، ولا يُرسل أبداً إلى الواجهة الأمامية. ملفات `.env` مستثناة في `.gitignore`؛ استخدم `.env.example` كقالب.
+> The API key stays on the server and is **never** sent to the browser. `.env` files are git-ignored; use the committed `.env.example` files as templates.
 
 ---
 
-## 🧠 كيف يعمل / How it works
+## 🔌 API reference
 
+**`POST /ai/chat`** — send one message in an ongoing session.
+
+Request:
+```json
+{
+  "session_id": "demo123",
+  "message": "I cut my hand with a knife and it's bleeding a little",
+  "medical_profile": { "age": 25, "chronic_conditions": [], "medications": [], "allergies": [] },
+  "image": { "mime_type": "image/jpeg", "base64_data": "..." }
+}
 ```
-المستخدم (React/Vite, RTL)
-      │  POST /ai/chat  { session_id, message, medical_profile?, image? }
-      ▼
-remoteAi.js  ← طبقة ترجمة بين صيغة الواجهة وصيغة الخلفية
-      │
-      ▼
-FastAPI (backend/main.py)
-  ├─ ذاكرة محادثة لكل session_id
-  ├─ Gemini: يسأل حتى 5 أسئلة متابعة، ثم يُنتج تقييماً
-  ├─ تحليل صورة الإصابة (اختياري)
-  ├─ بحث Google المدمج → معلومات طبية + مصادر موثّقة
-  ├─ قواعد عرض محدودة (صداع/رشح/حكة) + مسار طوارئ
-  └─ لأي إصابة خارج القواعد: توليد تشخيص مبدئي + خطوات إسعاف مخصّصة
-      │  ← urgency, assessment, sources, medical_information
-      ▼
-واجهة النتيجة: مستوى الخطورة، توجيه الرعاية، خطوات الإسعاف،
-علامات الخطر، المصادر.
+`medical_profile` and `image` are optional and only needed on the first message of a session.
+
+Response (shape; wording is model-generated):
+```json
+{
+  "session_id": "demo123",
+  "status": "question",
+  "message": "Did the bleeding stop after applying gentle pressure?",
+  "followup_count": 1,
+  "max_followups": 5,
+  "urgency": "unable_to_determine",
+  "assessment": null,
+  "sources": []
+}
 ```
-
-### مستويات الاستعجال / Urgency levels
-`emergency` → `urgent_medical_attention` → `routine_consultation` → `potentially_self_care` → `unable_to_determine`
-
-### أمثلة سيناريوهات للتجربة / Demo scenarios
-- `عندي صداع من الصبح` — يعرض مسار الأسئلة ثم تقييم.
-- `وقعت وجرحت ايدي بسكين وفي دم بسيط` — يحدّد "جرح قطعي سطحي" ويعطي خطوات إسعاف محددة (غسل، تنظيف، ضمادة) + متى تروح الطوارئ.
-- وصف أعراض خطيرة (ألم صدر/ضيق نفس) — يفعّل **مسار الطوارئ** الفوري.
+When `status` becomes `"assessment"`, the `assessment` object contains the summary, probable causes, first-aid actions, and warning signs.
 
 ---
 
-## 🗂️ بنية المشروع / Project structure
+## 🧪 Try these demo scenarios
+
+| Type this | What happens |
+|-----------|--------------|
+| `I've had a headache since this morning` | Follow-up questions → self-care / routine assessment |
+| `وقعت وجرحت ايدي بسكين وفي دم بسيط` | Identifies a minor laceration → concrete first-aid steps (clean, dress) + when to seek care |
+| A description of chest pain / difficulty breathing | Immediately triggers the **emergency** screen |
+
+---
+
+## 🗂️ Project structure
 
 ```
-Medical/
-├─ README.md            ← هذا الملف (دليل موحّد)
-├─ ARCHITECTURE.md      ← تفاصيل معمارية أعمق
-├─ docs/AI_CONTRACT.md  ← عقد صيغة الطلب/الرد بين الواجهة والخلفية
+Medical-Python/
+├─ README.md             ← this file
+├─ ARCHITECTURE.md       ← deeper architecture notes
+├─ docs/AI_CONTRACT.md   ← request/response contract between UI and API
 ├─ backend/
-│  ├─ main.py           ← كل منطق الخادم (FastAPI + Gemini)
-│  ├─ requirements.txt  ← متطلبات Python
-│  └─ .env.example      ← قالب المفتاح
+│  ├─ main.py            ← all server logic (FastAPI + Gemini)
+│  ├─ requirements.txt   ← Python dependencies
+│  └─ .env.example       ← key template
 └─ frontend/
    ├─ src/
-   │  ├─ pages/         ← الصفحات (Home, NewAssessment, Assessment, ...)
-   │  ├─ components/    ← مكوّنات الواجهة (RiskMeter, FirstAidSteps, ...)
-   │  ├─ controllers/   ← useAssessment, useProfile, AuthContext
-   │  ├─ services/ai/   ← remoteAi.js طبقة الاتصال بالخلفية
-   │  └─ models/        ← نماذج البيانات والتخزين المحلي
+   │  ├─ pages/          ← Home, NewAssessment, Assessment, …
+   │  ├─ components/     ← RiskMeter, FirstAidSteps, EmergencyCard, …
+   │  ├─ controllers/    ← useAssessment, useProfile, AuthContext
+   │  ├─ services/ai/    ← remoteAi.js (API client / translation layer)
+   │  └─ models/         ← data models & local storage
    └─ .env.example
 ```
 
 ---
 
-## 🛠️ التقنيات / Tech stack
+## 🧯 Troubleshooting
 
-**Frontend:** React 19, Vite 8, React Router 7, Tailwind CSS 4, lucide-react, Oxlint.
-**Backend:** Python, FastAPI, Uvicorn, Google `google-genai` SDK (Gemini), Pydantic, httpx.
-
----
-
-## ❓ مشاكل شائعة / Troubleshooting
-
-| المشكلة | الحل |
-|---|---|
-| خطأ CORS في المتصفح | تأكد إنه الخلفية شغّالة على `8000` وإنه `VITE_AI_SERVICE_URL` صحيح. |
-| الطلب يظهر "pending / Provisional headers" | طبيعي — رد الذكاء الاصطناعي بياخد من ٣ إلى ١٦ ثانية (خصوصاً التقييم النهائي). انتظر اللودر. |
-| `502 Bad Gateway` | فشل مؤقت من Gemini؛ أعد المحاولة. تأكد من صحّة المفتاح والحصة (quota). |
-| `422 Unprocessable Entity` | بيانات ملف صحي غير صالحة؛ الواجهة تنظّفها تلقائياً. |
-| الخادم ما بيلتقط التعديلات | أعد تشغيله يدوياً (بدون `--reload`). |
+| Symptom | Fix |
+|---------|-----|
+| Browser shows a **CORS** error | Make sure the backend is running on port `8000` and `VITE_AI_SERVICE_URL` matches. |
+| Request stuck on **“pending / Provisional headers”** | Normal — an AI reply takes ~3–16s (the final assessment is the slowest). Wait for the loader. |
+| **502 Bad Gateway** | A transient Gemini failure; just retry. Confirm your API key and quota are valid. |
+| **422 Unprocessable Entity** | Invalid profile data; the frontend sanitizes it automatically — refresh and retry. |
+| Server doesn’t pick up code changes | Restart it manually (without `--reload`). |
+| `pip` / `python` not found | Reinstall Python and ensure it’s on your PATH. |
 
 ---
 
-## 📄 ملاحظات / Notes
-- عرض توضيحي لأغراض المسابقة؛ استخدم بيانات أعراض تجريبية فقط.
-- قواعد العرض محدودة ولم تُراجَع سريرياً؛ النموذج يفسّر الإجابات وقد يخطئ.
-- في حالة الطوارئ الحقيقية اتصل دائماً بالرقم المحلي للطوارئ (**911**).
+## ⚖️ Notes & limitations
+
+- Demonstration only — use synthetic symptom data.
+- Built-in rules are limited and **not** clinician-reviewed; the model interprets answers and can make mistakes.
+- The absence of an emergency alert does **not** establish safety.
+- For any real emergency, always call your local emergency number (**911**).

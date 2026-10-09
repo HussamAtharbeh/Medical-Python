@@ -24,7 +24,6 @@ export default function Home() {
 
   return (
     <div>
-      {/* Hero */}
       <section className="bg-navy text-white py-16 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-3xl sm:text-4xl font-bold mb-4">الإسعافات الأولية الذكية</h1>
@@ -45,7 +44,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* How it works */}
       <section className="py-12 px-4">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-2xl font-bold text-center mb-8">كيف يعمل؟</h2>
@@ -63,7 +61,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Injury types */}
       <section className="py-12 px-4 bg-surface">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-2xl font-bold text-center mb-8">أنواع الإصابات</h2>
@@ -81,7 +78,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Safety notice */}
       <section className="py-12 px-4">
         <div className="max-w-4xl mx-auto">
           <Card className="border-warning/30 bg-warning-soft/50">
@@ -99,7 +95,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA */}
       {!user && (
         <section className="py-12 px-4 bg-primary-soft">
           <div className="max-w-4xl mx-auto text-center">

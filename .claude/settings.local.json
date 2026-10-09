@@ -48,7 +48,17 @@
       "Bash(netstat -ano)",
       "Bash(curl -s -i -X OPTIONS http://127.0.0.1:8000/ai/chat -H \"Origin: http://localhost:5176\" -H \"Access-Control-Request-Method: POST\" -H \"Access-Control-Request-Headers: content-type\")",
       "Bash(gh auth *)",
-      "Bash(grep -iE '\\\\.env$')"
+      "Bash(grep -iE '\\\\.env$')",
+      "Bash(git ls-tree *)",
+      "Bash(git reset *)",
+      "Bash(git rm *)",
+      "Bash(grep -iE '\\\\.env$|__pycache__')",
+      "Bash(grep -rlE '//|/\\\\*|\\\\{/\\\\*' frontend/src)",
+      "Bash(grep -rhcE '//|/\\\\*|\\\\{/\\\\*' frontend/src)",
+      "Bash(bc)",
+      "Bash(python -X utf8 -)",
+      "Bash(python -c \"import main; print\\('import OK'\\)\")",
+      "Bash(grep -rnE '\\\\{/\\\\*|^\\\\s*//|\\\\s//\\\\s' frontend/src)"
     ]
   }
 }
