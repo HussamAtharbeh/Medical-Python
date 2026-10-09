@@ -6,16 +6,21 @@ export default function EmergencyCard({ emergency }) {
 
   return (
     <div className="space-y-4">
-      <div className="bg-danger text-white rounded-xl p-5 text-center">
-        <AlertTriangle className="mx-auto mb-2" size={40} />
-        <h2 className="text-xl font-bold mb-2">{emergency.title}</h2>
-        <a
-          href="tel:911"
-          className="inline-flex items-center gap-2 bg-white text-danger font-bold px-6 py-3 rounded-lg text-lg"
-        >
-          <Phone size={20} />
-          اتصل 911
-        </a>
+      <div className="relative overflow-hidden bg-danger text-white rounded-3xl p-6 sm:p-8 text-center shadow-lift">
+        <div className="absolute inset-0 grid-dots opacity-30" />
+        <div className="relative">
+          <div className="w-16 h-16 rounded-2xl bg-white/15 grid place-items-center mx-auto mb-3">
+            <AlertTriangle size={34} />
+          </div>
+          <h2 className="text-xl sm:text-2xl font-bold mb-4">{emergency.title}</h2>
+          <a
+            href="tel:911"
+            className="inline-flex items-center gap-2 bg-white text-danger font-bold px-7 py-3.5 rounded-2xl text-lg shadow-soft hover:scale-[1.03] active:scale-[0.98] transition-transform"
+          >
+            <Phone size={20} />
+            اتصل 911
+          </a>
+        </div>
       </div>
 
       {emergency.reasons?.length > 0 && (
@@ -38,7 +43,7 @@ export default function EmergencyCard({ emergency }) {
           <ol className="space-y-2">
             {emergency.untilHelp.map((step, i) => (
               <li key={i} className="text-sm flex items-start gap-2">
-                <span className="w-5 h-5 rounded-full bg-primary text-white text-xs flex items-center justify-center shrink-0">
+                <span className="w-5 h-5 rounded-full gradient-primary text-white text-xs font-semibold flex items-center justify-center shrink-0 mt-0.5">
                   {i + 1}
                 </span>
                 {step}

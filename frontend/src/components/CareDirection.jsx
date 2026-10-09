@@ -12,12 +12,14 @@ export default function CareDirection({ direction, reason }) {
   const Icon = config.icon;
 
   return (
-    <div className={`rounded-lg p-4 ${config.bg}`}>
-      <div className="flex items-center gap-2 mb-1">
-        <Icon size={20} className={config.color} />
+    <div className={`rounded-2xl p-4 shadow-soft ${config.bg}`}>
+      <div className="flex items-center gap-2.5 mb-1.5">
+        <span className="w-9 h-9 rounded-xl bg-white/60 grid place-items-center shrink-0">
+          <Icon size={18} className={config.color} />
+        </span>
         <span className={`font-bold ${config.color}`}>{config.label}</span>
       </div>
-      {reason && <p className="text-sm text-text/80 mr-7">{reason}</p>}
+      {reason && <p className="text-sm text-text/80 leading-relaxed">{reason}</p>}
     </div>
   );
 }

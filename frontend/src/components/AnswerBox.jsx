@@ -24,7 +24,7 @@ export default function AnswerBox({ onAnswer, onBack, canGoBack, loading }) {
         onChange={(e) => setText(e.target.value)}
         placeholder="اكتب إجابتك هنا..."
         rows={3}
-        className="w-full px-3 py-2.5 rounded-lg border border-border text-sm bg-surface placeholder:text-placeholder focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition resize-none"
+        className="w-full px-4 py-3 rounded-xl border border-border text-sm bg-surface placeholder:text-placeholder focus:outline-none focus:ring-4 focus:ring-primary/15 focus:border-primary transition resize-none"
         disabled={loading}
       />
       <div className="flex items-center gap-2 flex-wrap">

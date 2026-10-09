@@ -65,9 +65,12 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="max-w-lg mx-auto px-4 py-8">
-      <h1 className="text-xl font-bold mb-6">الملف الصحي</h1>
-      <Card>
+    <div className="max-w-lg mx-auto px-4 py-10 animate-fade-up">
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold mb-1">الملف الصحي</h1>
+        <p className="text-sm text-muted">حدّث بياناتك ليكون كل تقييم أدق</p>
+      </div>
+      <Card className="shadow-lift">
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-2 gap-3">
             <Input label="العمر" type="number" value={form.age || ''} onChange={(e) => update('age', e.target.value)} />

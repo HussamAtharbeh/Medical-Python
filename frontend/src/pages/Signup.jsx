@@ -115,11 +115,15 @@ export default function Signup() {
   };
 
   return (
-    <div className="max-w-lg mx-auto px-4 py-8">
+    <div className="max-w-lg mx-auto px-4 py-10 animate-fade-up">
+      <div className="text-center mb-8">
+        <h1 className="text-2xl font-bold mb-1">أنشئ حسابك</h1>
+        <p className="text-sm text-muted">ملف صحي دقيق = إرشاد إسعاف مخصّص لك</p>
+      </div>
       <Stepper steps={STEPS} current={step} />
 
       {step === 0 && (
-        <Card>
+        <Card className="shadow-lift">
           <h2 className="text-lg font-bold mb-4">إنشاء حساب</h2>
           <form onSubmit={handleAccountSubmit} className="space-y-4">
             <Input label="الاسم الكامل" value={account.fullName} onChange={(e) => setAccount({ ...account, fullName: e.target.value })} placeholder="أدخل اسمك" />
@@ -132,11 +136,11 @@ export default function Signup() {
       )}
 
       {step === 1 && (
-        <Card>
+        <Card className="shadow-lift">
           <h2 className="text-lg font-bold mb-4">الملف الصحي</h2>
 
-          <div className="mb-4 p-3 bg-primary-soft rounded-lg">
-            <label className="text-sm font-medium text-primary cursor-pointer">
+          <div className="mb-4 p-3.5 bg-primary-soft border border-primary/15 rounded-xl">
+            <label className="text-sm font-semibold text-primary cursor-pointer">
               {uploading ? 'جاري القراءة...' : 'رفع ملف طبي لتعبئة تلقائية'}
               <input type="file" accept=".pdf,image/*" className="hidden" onChange={handleFileUpload} disabled={uploading} />
             </label>
@@ -195,7 +199,7 @@ export default function Signup() {
       )}
 
       {step === 2 && (
-        <Card>
+        <Card className="shadow-lift">
           <h2 className="text-lg font-bold mb-4">مراجعة البيانات</h2>
           <div className="space-y-3 text-sm">
             <div className="flex justify-between border-b border-border pb-2">

@@ -9,12 +9,12 @@ export default function RiskMeter({ level }) {
   const config = LEVELS[level] || LEVELS.LOW;
 
   return (
-    <div className={`rounded-lg p-3 ${config.bg}`}>
-      <div className="flex items-center justify-between mb-2">
-        <span className="text-sm font-medium">مستوى الخطورة</span>
+    <div className={`rounded-2xl p-4 shadow-soft ${config.bg}`}>
+      <div className="flex items-center justify-between mb-2.5">
+        <span className="text-sm font-semibold">مستوى الخطورة</span>
         <span className={`text-sm font-bold ${config.color}`}>{config.label}</span>
       </div>
-      <div className="w-full h-2 bg-white/50 rounded-full overflow-hidden">
+      <div className="w-full h-2.5 bg-white/60 rounded-full overflow-hidden">
         <div className={`h-full rounded-full transition-all duration-700 ${config.bar}`} style={{ width: config.width }} />
       </div>
     </div>

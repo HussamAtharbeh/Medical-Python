@@ -64,15 +64,15 @@ export default function Assessment() {
   if (assessment.status === 'COMPLETED' && assessment.result) {
     const r = assessment.result;
     return (
-      <div className="max-w-2xl mx-auto px-4 py-8">
+      <div className="max-w-2xl mx-auto px-4 py-8 animate-fade-up">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2 space-y-4">
-            <Card>
-              <h2 className="text-lg font-bold mb-1">{r.assessmentLabel}</h2>
-              <p className="text-sm text-muted">{r.summary}</p>
+            <Card className="shadow-lift">
+              <h2 className="text-xl font-bold mb-1.5">{r.assessmentLabel}</h2>
+              <p className="text-sm text-muted leading-relaxed">{r.summary}</p>
               {r.uncertain && (
-                <div className="mt-3 flex items-center gap-2 text-warning text-sm bg-warning-soft rounded-lg p-2">
-                  <AlertTriangle size={16} />
+                <div className="mt-3 flex items-center gap-2 text-warning text-sm bg-warning-soft rounded-xl px-3 py-2.5">
+                  <AlertTriangle size={16} className="shrink-0" />
                   التقييم غير مؤكد — ننصح بمراجعة طبيب
                 </div>
               )}
@@ -173,7 +173,7 @@ export default function Assessment() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-8">
+    <div className="max-w-2xl mx-auto px-4 py-8 animate-fade-up">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-4">
           {assessment.caseLabel && (

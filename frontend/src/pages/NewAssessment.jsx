@@ -27,14 +27,17 @@ export default function NewAssessment() {
   }
 
   return (
-    <div className="max-w-lg mx-auto px-4 py-8">
-      <h1 className="text-xl font-bold mb-6">تقييم جديد</h1>
+    <div className="max-w-lg mx-auto px-4 py-10 animate-fade-up">
+      <div className="text-center mb-8">
+        <h1 className="text-2xl font-bold mb-1">تقييم جديد</h1>
+        <p className="text-sm text-muted">اوصف حالتك وسنرشدك خطوة بخطوة</p>
+      </div>
 
-      <div className="flex gap-2 mb-6">
+      <div className="flex gap-1.5 mb-6 p-1.5 bg-surface border border-border rounded-2xl shadow-soft">
         <button
           onClick={() => setMode('text')}
-          className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-lg border text-sm font-medium transition ${
-            mode === 'text' ? 'bg-primary text-white border-primary' : 'bg-surface text-muted border-border'
+          className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-semibold transition-all duration-200 ${
+            mode === 'text' ? 'gradient-primary text-white shadow-glow' : 'text-muted hover:text-text'
           }`}
         >
           <PenLine size={16} />
@@ -42,8 +45,8 @@ export default function NewAssessment() {
         </button>
         <button
           onClick={() => setMode('image')}
-          className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-lg border text-sm font-medium transition ${
-            mode === 'image' ? 'bg-primary text-white border-primary' : 'bg-surface text-muted border-border'
+          className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-semibold transition-all duration-200 ${
+            mode === 'image' ? 'gradient-primary text-white shadow-glow' : 'text-muted hover:text-text'
           }`}
         >
           <Camera size={16} />
@@ -51,7 +54,7 @@ export default function NewAssessment() {
         </button>
       </div>
 
-      <Card>
+      <Card className="shadow-lift">
         <form onSubmit={handleSubmit} className="space-y-4">
           {mode === 'text' && (
             <>
